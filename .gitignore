@@ -1,0 +1,3 @@
+**/.env
+**/.env_non_dev
+venv/**
