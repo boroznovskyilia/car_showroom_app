@@ -7,18 +7,18 @@ from django_countries.fields import CountryField
 class BaseModel(models.Model):
     name = models.CharField()   
     is_active = models.BooleanField(default=True)
-    date_of_creat = models.DateTimeField()
-    date_of_latest_update = models.DateTimeField(default = datetime.datetime.now().strftime('%d/%m/%Y'))
-    balance = models.IntegerField()
-    location = CountryField()
+    date_of_creat = models.DateTimeField(default = datetime.datetime.now())
+    date_of_latest_update = models.DateTimeField(default = datetime.datetime.now())
+    balance = models.IntegerField(default=0)
+    location = CountryField(blank=True)
     class Meta:
         abstract = True
 
 class CarShowRoom(BaseModel):
     min_price_of_car = models.IntegerField()
     max_price_of_car = models.IntegerField()  
-    min_year_of_car_realise = models.DateTimeField(validators=[MaxValueValidator(datetime.datetime.now().year)])
-    max_year_of_car_realise = models.DateTimeField(validators=[MaxValueValidator(datetime.datetime.now().year)])
+    min_year_of_car_realise = models.IntegerField(default=datetime.datetime.now().year,validators=[MaxValueValidator(datetime.datetime.now().year)])
+    max_year_of_car_realise = models.IntegerField(default=datetime.datetime.now().year,validators=[MaxValueValidator(datetime.datetime.now().year)])
     
 class CarShowRoomStock(models.Model):
     car_model = models.CharField()

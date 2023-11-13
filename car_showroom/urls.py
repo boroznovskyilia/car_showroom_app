@@ -35,8 +35,8 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
-# router = DefaultRouter()
-# router.register(r'car_showroom',CarShowRoomListCreateAPIView.as_view(),basename='car_showroom_list_create')
+router = DefaultRouter()
+router.register(r'car_showroom',CarShowRoomListCreateAPIView,basename='car_showroom_list_create')
 
 
 urlpatterns = [
@@ -45,5 +45,6 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
     path('admin/', admin.site.urls),
-    path('showroom/',CarShowRoomListCreateAPIView.as_view())
+    # path('showroom/',CarShowRoomListCreateAPIView.as_view())
 ]
+urlpatterns+=router.urls

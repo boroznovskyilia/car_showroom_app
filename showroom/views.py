@@ -1,17 +1,16 @@
-from rest_framework.mixins import CreateModelMixin,ListModelMixin,RetrieveModelMixin,DestroyModelMixin,UpdateModelMixin
-from rest_framework.generics import GenericAPIView
-from .serializer import CarShowRoomSerializer
+from rest_framework.generics import ListCreateAPIView
+from rest_framework.viewsets import GenericViewSet
+from .serializer import CarShowRoomSerializerList,CarShowRoomSerializerCreate
 from .models import CarShowRoom 
 
-class CarShowRoomListCreateAPIView(ListModelMixin, CreateModelMixin, GenericAPIView):
+class CarShowRoomListCreateAPIView(ListCreateAPIView, GenericViewSet):
     queryset = CarShowRoom.objects.all()
-    serializer_class = CarShowRoomSerializer
+    serializer_class = CarShowRoomSerializerList
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return CarShowRoomSerializerCreate
+        return super().get_serializer_class()
 
 # class CarShowRoomDetailAPIView(RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, GenericAPIView):
     # queryset = CarShowRoom.objects.all()
