@@ -20,7 +20,7 @@ from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from showroom.views import CarShowRoomListCreateAPIView
+from showroom.views import CarShowRoomAPIView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -36,8 +36,7 @@ schema_view = get_schema_view(
 )
 
 router = DefaultRouter()
-router.register(r'car_showroom',CarShowRoomListCreateAPIView,basename='car_showroom_list_create')
-
+router.register(r'car_showroom',CarShowRoomAPIView,basename='car_showroom')
 
 urlpatterns = [
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
