@@ -12,6 +12,7 @@ class TransactionFromShowroomToBuyer(models.Model):
     date_of_transaction = models.DateField(default = datetime.datetime.now().strftime('%d/%m/%Y'))
     car_model = models.CharField()
     price_of_transactions = models.PositiveIntegerField()
+    
     class Meta:
         ordering = ['-date_of_transaction']
 

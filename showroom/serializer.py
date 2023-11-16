@@ -1,16 +1,38 @@
 from rest_framework import serializers
-from .models import CarShowRoom
+from .models import CarShowRoom,CarShowRoomStock
 import datetime
 
-class CarShowRoomSerializerList(serializers.ModelSerializer):
+
+class CarShowRoomStockSerializerCreate(serializers.ModelSerializer):
+
     class Meta:
-        model = CarShowRoom
+        model = CarShowRoomStock
         fields = "__all__"
 
-class CarShowRoomSerializerCreate(serializers.ModelSerializer):
+class CarShowRoomStockSerializserUpdate(serializers.ModelSerializer):
+
+    class Meta:
+        model = CarShowRoomStock
+        fields = ["car_model","car_price","amount_of_cars_of_this_model"]
+        read_only_fields = ["car_model"]
+        
+
+class CarShowRoomSerializerList(serializers.ModelSerializer):
+    show_room_stocks = CarShowRoomStockSerializerCreate(many = True,read_only = True)
+
     class Meta:
         model = CarShowRoom
-        fields = ["name","location","min_price_of_car","max_price_of_car","min_year_of_car_realise","max_year_of_car_realise"]
+        fields = ["id","name","location","min_price_of_car","max_price_of_car",\
+                  "min_year_of_car_release","max_year_of_car_release","date_of_creat",\
+                    "date_of_latest_update","show_room_stocks"]
+        
+
+class CarShowRoomSerializerCreate(serializers.ModelSerializer):
+
+    class Meta:
+        model = CarShowRoom
+        fields = ["name","location","min_price_of_car","max_price_of_car",\
+                  "min_year_of_car_release","max_year_of_car_release"]
 
 class CarShowRoomSerializerUpdate(serializers.ModelSerializer):
 
@@ -21,4 +43,7 @@ class CarShowRoomSerializerUpdate(serializers.ModelSerializer):
     
     class Meta:
         model = CarShowRoom
-        fields = ["name","location","min_price_of_car","max_price_of_car","min_year_of_car_realise","max_year_of_car_realise","date_of_latest_update"]
+        fields = ["name","location","min_price_of_car","max_price_of_car",\
+                  "min_year_of_car_release","max_year_of_car_release",\
+                    "date_of_latest_update"]
+        

@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator,MinValueValidator
 import datetime
 from django_countries.fields import CountryField
 
@@ -17,12 +17,19 @@ class BaseModel(models.Model):
 class CarShowRoom(BaseModel):
     min_price_of_car = models.IntegerField()
     max_price_of_car = models.IntegerField()  
-    min_year_of_car_realise = models.IntegerField(default=datetime.datetime.now().year,validators=[MaxValueValidator(datetime.datetime.now().year)])
-    max_year_of_car_realise = models.IntegerField(default=datetime.datetime.now().year,validators=[MaxValueValidator(datetime.datetime.now().year)])
+    min_year_of_car_release = models.IntegerField(default=datetime.datetime.now().year,
+                                validators=[MinValueValidator(1900),\
+                                            MaxValueValidator(datetime.datetime.now().year)])
+    max_year_of_car_release = models.IntegerField(default=datetime.datetime.now().year,\
+                                validators=[MinValueValidator(1900),\
+                                            MaxValueValidator(datetime.datetime.now().year)])
     
 class CarShowRoomStock(models.Model):
     car_model = models.CharField()
-    car_price = models.IntegerField()
-    amount_of_cars_of_this_model = models.IntegerField()
-    show_room = models.OneToOneField(CarShowRoom,on_delete=models.CASCADE)
-    year_of_car_realise = models.IntegerField(default = datetime.datetime.now().year)
+    car_price = models.PositiveIntegerField()
+    amount_of_cars_of_this_model = models.PositiveIntegerField()
+    show_room = models.ForeignKey(CarShowRoom,on_delete=models.CASCADE,\
+                                  related_name="show_room_stocks")
+    year_of_car_release = models.IntegerField(default=datetime.datetime.now().year,
+                                validators=[MinValueValidator(1900),\
+                                            MaxValueValidator(datetime.datetime.now().year)])
