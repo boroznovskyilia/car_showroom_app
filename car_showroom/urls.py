@@ -20,9 +20,14 @@ from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from showroom.views import CarShowRoomAPIView,CarShowRoomStockAPIViewCreate,\
-    CarShowRoomStockAPIViewUpdate
-
+from showroom.views import CarShowRoomAPIViewList,CarShowRoomStockAPIViewCreate,\
+    CarShowRoomStockAPIViewUpdate,CarShowRoomAPIViewUpdate,CarShowRoomAPIViewDelete,\
+    CarShowRoomAPIViewCreate,CarShowRoomStockAPIViewDelete
+from producer.views import ProducerAPIVeiwCreate,ProducerAPIVeiwList,ProducerAPIVeiwUpdate,\
+    ProducerApiVeiwDelete,ProducerStockAPIVeiwCreate,ProducerStockAPIVeiwUpdate,\
+        ProducerStockAPIVeiwDelete,ProducerToShowroomTransaction
+from buyer.views import BuyerAPIViewListCreate,BuyerAPIViewUpdate,BuyerApiVeiwDelete,\
+TransactionShowroomToBuyerAPIView
 schema_view = get_schema_view(
     openapi.Info(
         title="REST APIs",
@@ -37,9 +42,40 @@ schema_view = get_schema_view(
 )
 
 router = DefaultRouter()
-router.register(r'showroom',CarShowRoomAPIView,basename='showroom')
-router.register(r'showroom_stock',CarShowRoomStockAPIViewCreate,basename='showroom_stock_create')
-router.register(r'showroom_stock',CarShowRoomStockAPIViewUpdate,basename='showroom_stock_update')
+router.register(r'showroom',CarShowRoomAPIViewList,basename='showroom')
+router.register(r'showroom/create',CarShowRoomAPIViewCreate,\
+                basename='showroom')
+router.register(r'showroom/update',CarShowRoomAPIViewUpdate,\
+                basename='showroom')
+router.register(r'showroom/delete',CarShowRoomAPIViewDelete,\
+                basename='showroom')
+
+router.register(r'showroom_stock/create',CarShowRoomStockAPIViewCreate,\
+                basename='showroom_stock')
+router.register(r'showroom_stock/update',CarShowRoomStockAPIViewUpdate,\
+                basename='showroom_stock')
+router.register(r'showroom_stock/delete',CarShowRoomStockAPIViewDelete,\
+                basename='showroom_stock')
+
+router.register(r'producer/list',ProducerAPIVeiwList,basename='producer')
+router.register(r'producer/create',ProducerAPIVeiwCreate,basename='producer')
+router.register(r'producer/update',ProducerAPIVeiwUpdate,basename='producer')
+router.register(r'producer/delete',ProducerApiVeiwDelete,basename='producer')
+
+router.register(r'producer_stock/create',ProducerStockAPIVeiwCreate,\
+    basename='producer_stock')
+router.register(r'producer_stock/update',ProducerStockAPIVeiwUpdate,\
+    basename='producer_stock')
+router.register(r'producer_stock/delete',ProducerStockAPIVeiwDelete,\
+    basename='producer_stock')
+router.register(r'producer_stock/transaction',ProducerToShowroomTransaction,\
+    basename='producer_stock')
+
+router.register(r'buyer',BuyerAPIViewListCreate,basename="buyer")
+router.register(r'buyer/update',BuyerAPIViewUpdate,basename="buyer")
+router.register(r'buyer/delete',BuyerApiVeiwDelete,basename="buyer")
+router.register(r'buyer/transaction',TransactionShowroomToBuyerAPIView,basename="buyer")
+
 
 urlpatterns = [
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
