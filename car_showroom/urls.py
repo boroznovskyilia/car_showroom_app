@@ -42,6 +42,7 @@ schema_view = get_schema_view(
 )
 
 router = DefaultRouter()
+
 router.register(r'showroom',CarShowRoomAPIViewList,basename='showroom')
 router.register(r'showroom/create',CarShowRoomAPIViewCreate,\
                 basename='showroom')
