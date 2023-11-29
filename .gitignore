@@ -2,7 +2,7 @@
 pyproject.toml
 pytest.ini
 venv/
-.vscode/\
+.vscode/
 __pycache__/
 __init__.py
 migrations/
