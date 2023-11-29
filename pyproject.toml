@@ -1,0 +1,16 @@
+[tool.black]
+line-length = 110
+exclude = '''
+    __pycache__/
+    data/
+    migrations/
+    venv/
+    */__init__.py
+    *.txt
+    Dockerfile
+    docker-compose.yml
+    .gitignore
+    .env
+    .vs_code/
+    .pytest_cache/
+'''
