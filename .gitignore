@@ -9,3 +9,4 @@ migrations/
 data/
 venv/
 .pytest_cache/
+*.txt
