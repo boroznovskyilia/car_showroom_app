@@ -1,4 +1,11 @@
-**/.env
-**/.env_non_dev
-venv/**
-.vscode/**
+.env
+pyproject.toml
+pytest.ini
+__init__.py
+.vscode/
+__pycache__/
+migrations/
+data/
+venv/
+.pytest_cache/
+*.txt
