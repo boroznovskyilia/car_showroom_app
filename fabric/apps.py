@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ShowroomConfig(AppConfig):
+class FabricConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "showroom"
+    name = "fabric"

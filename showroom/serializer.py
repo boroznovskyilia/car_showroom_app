@@ -1,57 +1,104 @@
 from rest_framework import serializers
-from .models import CarShowRoom,CarShowRoomStock
+
+from fabric.models import Transaction
+from .models import ShowRoom, ShowRoomCars
 import datetime
 from buyer.models import Buyer
+from django_countries.fields import Country
 
-class BuyerHelpSerializer(serializers.ModelSerializer):
+
+class AdditionalBuyerSerializer(serializers.ModelSerializer):
+    """
+    Show necessary Buyer's fields in ShowrooSerializer
+    """
+
     class Meta:
         model = Buyer
-        fields = ["id","name","is_active"]
+        fields = ["id", "name", "is_active"]
 
-class CarShowRoomStockSerializerCreate(serializers.ModelSerializer):
 
+class ShowRoomCarsCreateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CarShowRoomStock
-        fields = "__all__"
+        model = ShowRoomCars
+        fields = ["id", "model", "price", "amount", "year_ofrelease", "show_room"]
+        read_only_fields = ["id", "date_of_create", "date_of_latest_update", "is_active"]
 
-class CarShowRoomStockSerializserUpdate(serializers.ModelSerializer):
+
+class ShowRoomCarsUpdateSerializer(serializers.ModelSerializer):
     def to_internal_value(self, data):
         data = super().to_internal_value(data)
-        data['date_of_latest_update'] = datetime.datetime.now()
+        data["date_of_latest_update"] = datetime.datetime.now()
         return data
-    class Meta:
-        model = CarShowRoomStock
-        fields = ["car_model","car_price","amount_of_cars_of_this_model","date_of_latest_update"]
-        read_only_fields = ["car_model","date_of_latest_update"]
-        
-
-class CarShowRoomSerializerList(serializers.ModelSerializer):
-    show_room_stocks = CarShowRoomStockSerializerCreate(many = True,read_only = True)
-    buyer_from_showroom = BuyerHelpSerializer(many = True,read_only = True)
-    class Meta:
-        model = CarShowRoom
-        fields = ["id","name","balance","location","min_price_of_car","max_price_of_car",\
-                  "min_year_of_car_release","max_year_of_car_release","date_of_creat",\
-                    "date_of_latest_update","buyer_from_showroom","show_room_stocks"]
-        
-
-class CarShowRoomSerializerCreate(serializers.ModelSerializer):
 
     class Meta:
-        model = CarShowRoom
-        fields = ["name","location","min_price_of_car","max_price_of_car",\
-                  "min_year_of_car_release","max_year_of_car_release"]
+        model = ShowRoomCars
+        fields = ["model", "price", "amount", "date_of_latest_update"]
+        read_only_fields = ["model", "date_of_latest_update"]
 
-class CarShowRoomSerializerUpdate(serializers.ModelSerializer):
 
+class ShowRoomListSerializer(serializers.ModelSerializer):
+    show_room_cars = ShowRoomCarsCreateSerializer(many=True, read_only=True)
+    buyers = AdditionalBuyerSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ShowRoom
+        fields = [
+            "id",
+            "name",
+            "is_active",
+            "balance",
+            "location",
+            "min_price",
+            "max_price",
+            "min_year_of_release",
+            "max_year_of_release",
+            "date_of_creat",
+            "date_of_latest_update",
+            "buyers",
+            "show_room_cars",
+        ]
+
+
+class ShowRoomCreateSerializer(serializers.ModelSerializer):
+    def to_internal_value(self, data):
+        if data["location"] == "":
+            data["location"] = None
+        return super().to_internal_value(data)
+
+    class Meta:
+        model = ShowRoom
+        fields = [
+            "name",
+            "location",
+            "min_price",
+            "max_price",
+            "min_year_of_release",
+            "max_year_of_release",
+        ]
+
+
+class ShowRoomUpdateSerializer(serializers.ModelSerializer):
     def to_internal_value(self, data):
         data = super().to_internal_value(data)
-        data['date_of_latest_update'] = datetime.datetime.now()
+        data["date_of_latest_update"] = datetime.datetime.now()
         return data
-    
+
     class Meta:
-        model = CarShowRoom
-        fields = ["name","location","min_price_of_car","max_price_of_car",\
-                  "min_year_of_car_release","max_year_of_car_release",\
-                    "date_of_latest_update"]
+        model = ShowRoom
+        fields = [
+            "name",
+            "location",
+            "min_price",
+            "max_price",
+            "min_year_of_release",
+            "max_year_of_release",
+            "date_of_latest_update",
+        ]
         read_only_fields = ["date_of_latest_update"]
+
+
+class TransactionBetweenFabricAndShowroom(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = ["fabric", "showroom", "model", "date", "price"]
+        read_only_fields = ["date"]
