@@ -1,10 +1,12 @@
+import datetime
+
+from django_countries.fields import Country
 from rest_framework import serializers
 
-from fabric.models import Transaction
-from .models import ShowRoom, ShowRoomCars
-import datetime
 from buyer.models import Buyer
-from django_countries.fields import Country
+from fabric.models import Transaction
+
+from .models import ShowRoom, ShowRoomCars
 
 
 class AdditionalBuyerSerializer(serializers.ModelSerializer):

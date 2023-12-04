@@ -110,7 +110,7 @@ class ShowRoomCarsDeleteAPIView(GenericViewSet):
 
 class TransactionFabricToShowroomAPIView(ListModelMixin, GenericViewSet):
     def get_queryset(self):
-        return Transaction.objects.get_active().all()
+        return Transaction.objects.all()
 
     serializer_class = TransactionBetweenFabricAndShowroom
 

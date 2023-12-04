@@ -2,10 +2,9 @@
 pyproject.toml
 pytest.ini
 __init__.py
+venv/
 .vscode/
 __pycache__/
 migrations/
 data/
-venv/
 .pytest_cache/
-*.txt
