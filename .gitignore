@@ -1,11 +1,10 @@
 .env
 pyproject.toml
 pytest.ini
-venv/
-.vscode/\
-__pycache__/
 __init__.py
+venv/
+.vscode/
+__pycache__/
 migrations/
 data/
-venv/
 .pytest_cache/
