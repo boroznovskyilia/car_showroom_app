@@ -2,10 +2,11 @@ import datetime
 
 from rest_framework import serializers
 
-from fabric.models import Transaction
+from fabric.model_transaction import Transaction
 from showroom.models import ShowRoom
 
-from .models import Fabric, FabricCars
+from .models import Fabric
+from .model_cars import FabricCars
 
 
 class AdditionalShowRoomSerializer(serializers.ModelSerializer):
@@ -37,8 +38,8 @@ class FabricCarsSerializerCreate(serializers.ModelSerializer):
 class FabricSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Fabric
-        fields = ["name", "location", "balance", "is_active", "date_of_creat", "date_of_latest_update"]
-        read_only_fields = ["is_active", "date_of_creat", "date_of_update"]
+        fields = ["name", "location", "is_active", "date_of_creat", "date_of_latest_update"]
+        read_only_fields = ["is_active", "date_of_creat", "date_of_latest_update"]
 
 
 class FabricSerializerList(serializers.ModelSerializer):

@@ -4,15 +4,18 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet, ViewSet
 
-from fabric.models import Transaction
+from fabric.model_transaction import Transaction
 from showroom.models import ShowRoom
-
+from showroom.model_cars import ShowRoomCars
 from .models import Buyer
-from .serializer import (BuyerListCreateSerializer, BuyerUpdateSerializer,
-                         TransactionFromShowroomAndBuyerSerializer)
+from .serializer import (
+    BuyerListCreateSerializer,
+    BuyerUpdateSerializer,
+    TransactionFromShowroomAndBuyerSerializer,
+)
 
 
-class BuyerListCreateAPIView(ListModelMixin, CreateModelMixin, GenericViewSet):
+class BuyerListCreateViewSet(ListModelMixin, CreateModelMixin, GenericViewSet):
     def to_internal_value(self, data):
         if data["location"] == "":
             data["location"] = None
@@ -24,7 +27,7 @@ class BuyerListCreateAPIView(ListModelMixin, CreateModelMixin, GenericViewSet):
     serializer_class = BuyerListCreateSerializer
 
 
-class BuyerUpdateAPIView(GenericViewSet):
+class BuyerUpdateViewSet(GenericViewSet):
     def get_queryset(self):
         return Buyer.objects.get_active().all()
 
@@ -41,7 +44,7 @@ class BuyerUpdateAPIView(GenericViewSet):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-class BuyerDeleteAPIView(GenericViewSet):
+class BuyerDeleteViewSet(GenericViewSet):
     def get_queryset(self):
         return Buyer.objects.get_active().all()
 
@@ -52,7 +55,7 @@ class BuyerDeleteAPIView(GenericViewSet):
         return Response(status=status.HTTP_200_OK)
 
 
-class TransactionShowroomToBuyerAPIView(ListModelMixin, GenericViewSet):
+class TransactionShowroomToBuyerViewSet(ListModelMixin, GenericViewSet):
     def get_queryset(self):
         return Transaction.objects.filter(fabric=None).all()
 
@@ -65,6 +68,8 @@ class TransactionShowroomToBuyerAPIView(ListModelMixin, GenericViewSet):
         showroom = get_object_or_404(ShowRoom.objects.get_active(), pk=showroom_obj.id)
         buyer_obj = serializer.validated_data["buyer"]
         buyer = get_object_or_404(Buyer.objects.get_active(), pk=buyer_obj.id)
+        showroom_car_obj = serializer.validated_data["showroom_car"]
+        showroom_car = get_object_or_404(ShowRoomCars.objects.filter(is_active=True), pk=showroom_car_obj.id)
         showroom.buyers.add(buyer)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)

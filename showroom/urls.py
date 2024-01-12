@@ -1,27 +1,63 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from showroom.views import (ShowRoomCarsCreateAPIView,
-                            ShowRoomCarsDeleteAPIView,
-                            ShowRoomCarsUpdateAPIView, ShowRoomCreateAPIView,
-                            ShowRoomDeleteAPIView, ShowRoomListAPIView,
-                            ShowRoomUpdateAPIView,
-                            TransactionFabricToShowroomAPIView)
+from showroom.views import (
+    # ShowRoomCarsCreateViewSet,
+    ShowRoomCarsDeleteViewSet,
+    # ShowRoomCarsUpdateViewSet,
+    ShowRoomCreateViewSet,
+    ShowRoomDeleteViewSet,
+    ShowRoomListViewSet,
+    ShowRoomUpdateViewSet,
+    TransactionFabricToShowroomViewSet,
+    SutableCarsView,
+    MakeTransactionsView,
+)
+from sales.views import SaleForShowRoomViewSet
 
 router = DefaultRouter()
-
-router.register(r"showrooms", ShowRoomListAPIView, basename="showrooms")
-router.register(r"showrooms/create", ShowRoomCreateAPIView, basename="showrooms")
-router.register(r"showrooms/update", ShowRoomUpdateAPIView, basename="showrooms")
-router.register(r"showrooms/delete", ShowRoomDeleteAPIView, basename="showrooms")
-router.register(r"showrooms/transaction", TransactionFabricToShowroomAPIView, basename="showrooms")
-
-router.register(r"showrooms_cars/create", ShowRoomCarsCreateAPIView, basename="showrooms_cars")
-router.register(r"showrooms_cars/update", ShowRoomCarsUpdateAPIView, basename="showrooms_cars")
-router.register(r"showrooms_cars/delete", ShowRoomCarsDeleteAPIView, basename="showrooms_cars")
 
 app_name = "showrooms"
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path("showrooms/", ShowRoomListViewSet.as_view({"get": "list"}), name="showrooms-list"),
+    path("showrooms/create/", ShowRoomCreateViewSet.as_view({"post": "create"}), name="showrooms-create"),
+    path(
+        "showrooms/update/<int:pk>/",
+        ShowRoomUpdateViewSet.as_view({"put": "update"}),
+        name="showrooms-update",
+    ),
+    path(
+        "showrooms/delete/<int:pk>/",
+        ShowRoomDeleteViewSet.as_view({"delete": "destroy"}),
+        name="showrooms-delete",
+    ),
+    path(
+        "showrooms/transaction/",
+        TransactionFabricToShowroomViewSet.as_view({"get": "list", "post": "create"}),
+        name="showrooms-transaction",
+    ),
+    path("showrooms/sutable_cars/", SutableCarsView.as_view({"get": "list"}), name="showrooms-sutable-cars"),
+    path(
+        "showrooms/make_transactions/",
+        MakeTransactionsView.as_view({"get": "list"}),
+        name="showrooms-make-transactions",
+    ),
+    path(
+        "showrooms/cars/delete/<int:pk>/",
+        ShowRoomCarsDeleteViewSet.as_view({"delete": "destroy"}),
+        name="showrooms-cars-delete",
+    ),
+    path(
+        "showrooms/sales/",
+        SaleForShowRoomViewSet.as_view({"get":"list"}),name="showrooms-sale-list"
+    ),
+    path(
+        "showrooms/sales/create/",
+        SaleForShowRoomViewSet.as_view({"post":"create"}),name="showrooms-sale-create"
+    ),
+    path(
+        "showrooms/sales/<int:pk>/",
+        SaleForShowRoomViewSet.as_view({"get":"retrieve"}),name="showrooms-sales-get"
+    )
 ]

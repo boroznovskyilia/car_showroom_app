@@ -7,13 +7,19 @@ from rest_framework.viewsets import GenericViewSet, ViewSet
 
 from showroom.models import ShowRoom
 
-from .models import Fabric, FabricCars, Transaction
-from .serializer import (FabricCarsSerializerCreate,
-                         FabricCarsSerializerUpdate, FabricSerializerCreate,
-                         FabricSerializerList, FabricSerializeUpdate)
+from .models import Fabric
+from .model_cars import FabricCars
+from .model_transaction import Transaction
+from .serializer import (
+    FabricCarsSerializerCreate,
+    FabricCarsSerializerUpdate,
+    FabricSerializerCreate,
+    FabricSerializerList,
+    FabricSerializeUpdate,
+)
 
 
-class FabricCreateAPIView(CreateModelMixin, GenericViewSet):
+class FabricCreateViewSet(CreateModelMixin, GenericViewSet):
     def to_internal_value(self, data):
         if data["location"] == "":
             data["location"] = None
@@ -22,7 +28,7 @@ class FabricCreateAPIView(CreateModelMixin, GenericViewSet):
     serializer_class = FabricSerializerCreate
 
 
-class FabricListAPIView(ListModelMixin, GenericViewSet):
+class FabricListViewSet(ListModelMixin, GenericViewSet):
     def get_queryset(self):
         return (
             Fabric.objects.get_active()
@@ -33,7 +39,7 @@ class FabricListAPIView(ListModelMixin, GenericViewSet):
     serializer_class = FabricSerializerList
 
 
-class FabricUpdateAPIView(GenericViewSet):
+class FabricUpdateViewSet(GenericViewSet):
     serializer_class = FabricSerializeUpdate
 
     def get_queryset(self):
@@ -50,7 +56,7 @@ class FabricUpdateAPIView(GenericViewSet):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-class FabricDeleteAPIView(GenericViewSet):
+class FabricDeleteViewSet(GenericViewSet):
     def get_queryset(self):
         return Fabric.objects.get_active().all()
 
@@ -61,14 +67,14 @@ class FabricDeleteAPIView(GenericViewSet):
         return Response(status=status.HTTP_200_OK)
 
 
-class FabricCarsCreateAPIView(CreateModelMixin, GenericViewSet):
+class FabricCarsCreateViewSet(CreateModelMixin, GenericViewSet):
     def get_queryset(self):
         return FabricCars.objects.get_active().all()
 
     serializer_class = FabricCarsSerializerCreate
 
 
-class FabricCarsUpdateAPIView(GenericViewSet):
+class FabricCarsUpdateViewSet(GenericViewSet):
     def get_queryset(self):
         return FabricCars.objects.get_active().all()
 
@@ -85,7 +91,7 @@ class FabricCarsUpdateAPIView(GenericViewSet):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-class FabricCarsDeleteAPIView(GenericViewSet):
+class FabricCarsDeleteViewSet(GenericViewSet):
     def get_queryset(self):
         return FabricCars.objects.get_active().all()
 

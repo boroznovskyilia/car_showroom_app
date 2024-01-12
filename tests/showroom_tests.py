@@ -3,7 +3,8 @@ from mixer.backend.django import mixer
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from showroom.models import ShowRoom, ShowRoomCars
+from showroom.models import ShowRoom
+from showroom.model_cars import ShowRoomCars
 
 
 @pytest.fixture

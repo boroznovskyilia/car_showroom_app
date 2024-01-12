@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 from mixer.backend.django import mixer
 from buyer.models import Buyer
 from showroom.models import ShowRoom
-from fabric.models import Transaction
+from fabric.model_transaction import Transaction
 
 
 @pytest.fixture

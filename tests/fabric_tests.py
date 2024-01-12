@@ -3,7 +3,8 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from mixer.backend.django import mixer
 
-from fabric.models import Fabric, FabricCars
+from fabric.models import Fabric
+from fabric.model_cars import FabricCars
 
 
 @pytest.fixture

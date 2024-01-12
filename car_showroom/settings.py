@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,9 +41,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "drf_yasg",
+    "django_celery_beat",
+    "celery",
     "buyer.apps.BuyerConfig",
     "showroom.apps.ShowroomConfig",
     "fabric.apps.FabricConfig",
+    "sales.apps.SalesConfig",
 ]
 
 MIDDLEWARE = [
@@ -138,4 +142,33 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     # ]
+}
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django.db.backends": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+}
+
+CELERY_BROKER_URL = "pyamqp://guest:guest@localhost//"
+
+CELERY_BEAT_SCHEDULE = {
+    "make_transactions": {
+        "task": "showroom.tasks.make_transactions",
+        "schedule": 10,
+    },
+    "sutable_cars": {
+        "task": "showroom.tasks.sutable_cars",
+        "schedule": 60,
+    },
 }

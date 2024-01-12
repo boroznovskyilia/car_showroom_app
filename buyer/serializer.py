@@ -2,7 +2,7 @@ import datetime
 
 from rest_framework.serializers import ModelSerializer
 
-from fabric.models import Transaction
+from fabric.model_transaction import Transaction
 
 from .models import Buyer
 
@@ -34,5 +34,5 @@ class TransactionFromShowroomAndBuyerSerializer(ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ["buyer", "showroom", "model", "date", "price"]
+        fields = ["buyer", "showroom", "date", "showroom_car"]
         read_only_fields = ["date"]
