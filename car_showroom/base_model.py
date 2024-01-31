@@ -21,12 +21,11 @@ class InitialModel(models.Model):
     is_active = models.BooleanField(default=True)
     date_of_creat = models.DateTimeField(default=datetime.datetime.now())
     date_of_latest_update = models.DateTimeField(default=datetime.datetime.now())
-    objects = ActiveObjectManager()
+    # objects = ActiveObjectManager()
 
     class Meta:
         abstract = True
-
-
+    
 class BaseModel(InitialModel):
     """
     Base Model that used for Fabric,ShowRoom,Buyer
@@ -38,3 +37,9 @@ class BaseModel(InitialModel):
 
     class Meta:
         abstract = True
+    
+    def __repr__(self):
+        class_name = type(self).__name__
+        return f"{class_name}({self.id},{self.name})"
+
+

@@ -19,3 +19,4 @@ class ShowRoom(BaseModel):
         validators=[MinValueValidator(1900), MaxValueValidator(datetime.datetime.now().year)],
     )
     buyers = models.ManyToManyField(Buyer, related_name="showroom")
+    

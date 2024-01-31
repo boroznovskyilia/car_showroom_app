@@ -7,6 +7,7 @@ from showroom.models import ShowRoom
 
 from .models import Fabric
 from .model_cars import FabricCars
+from sales.serializer import SaleForFabricSerializer
 
 
 class AdditionalShowRoomSerializer(serializers.ModelSerializer):
@@ -20,6 +21,7 @@ class AdditionalShowRoomSerializer(serializers.ModelSerializer):
 
 
 class FabricCarsSerializerCreate(serializers.ModelSerializer):
+    sale = SaleForFabricSerializer(many=True,read_only=True)
     class Meta:
         model = FabricCars
         fields = [
@@ -31,6 +33,7 @@ class FabricCarsSerializerCreate(serializers.ModelSerializer):
             "is_active",
             "date_of_creat",
             "date_of_latest_update",
+            "sale",
         ]
         read_only_fields = ["id", "is_active", "date_of_creat", "date_of_latest_update"]
 

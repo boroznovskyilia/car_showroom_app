@@ -15,3 +15,9 @@ class FabricCars(InitialModel):
         default=datetime.datetime.now().year,
         validators=[MinValueValidator(1900), MaxValueValidator(datetime.datetime.now().year)],
     )
+    
+    def __repr__(self):
+        class_name = type(self).__name__
+        return f"{class_name}({self.id},{self.model},{self.price})"
+
+

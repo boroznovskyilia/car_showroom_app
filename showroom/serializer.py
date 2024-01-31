@@ -11,6 +11,7 @@ from fabric.models import Fabric
 
 from .models import ShowRoom
 from .model_cars import ShowRoomCars
+from sales.serializer import SaleForFabricSerializer
 
 
 class AdditionalBuyerSerializer(serializers.ModelSerializer):
@@ -55,10 +56,10 @@ class FabricSerializer(serializers.ModelSerializer):
 
 class FabricCarsSerializer(serializers.ModelSerializer):
     fabric = FabricSerializer()
-
+    sale = SaleForFabricSerializer(many=True,read_only=True)
     class Meta:
         model = FabricCars
-        fields = ["id", "model", "fabric", "price", "year_of_release"]
+        fields = ["id", "model", "fabric", "price", "year_of_release","sale"]
 
 
 class ShowRoomCarWithPopularitySerializer(serializers.ModelSerializer):

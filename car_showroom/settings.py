@@ -160,15 +160,15 @@ LOGGING = {
     },
 }
 
-CELERY_BROKER_URL = "pyamqp://guest:guest@localhost//"
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
 
 CELERY_BEAT_SCHEDULE = {
     "make_transactions": {
         "task": "showroom.tasks.make_transactions",
-        "schedule": 10,
+        "schedule": 5,
     },
     "sutable_cars": {
         "task": "showroom.tasks.sutable_cars",
-        "schedule": 60,
+        "schedule": 15,
     },
 }

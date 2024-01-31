@@ -31,9 +31,9 @@ class FabricCreateViewSet(CreateModelMixin, GenericViewSet):
 class FabricListViewSet(ListModelMixin, GenericViewSet):
     def get_queryset(self):
         return (
-            Fabric.objects.get_active()
+            Fabric.objects.filter(is_active=True)
             .all()
-            .prefetch_related(Prefetch("fabric_cars", queryset=FabricCars.objects.get_active().all()))
+            .prefetch_related(Prefetch("fabric_cars", queryset=FabricCars.objects.filter(is_active=True)))
         )
 
     serializer_class = FabricSerializerList
@@ -43,7 +43,7 @@ class FabricUpdateViewSet(GenericViewSet):
     serializer_class = FabricSerializeUpdate
 
     def get_queryset(self):
-        return Fabric.objects.get_active().all()
+        return Fabric.objects.filter(is_active=True)
 
     def partial_update(self, request, pk):
         Fabric_obj = get_object_or_404(Fabric, pk=pk)
@@ -58,7 +58,7 @@ class FabricUpdateViewSet(GenericViewSet):
 
 class FabricDeleteViewSet(GenericViewSet):
     def get_queryset(self):
-        return Fabric.objects.get_active().all()
+        return Fabric.objects.filter(is_active=True)
 
     def destroy(self, request, pk):
         Fabric_obj = get_object_or_404(Fabric, pk=pk)
@@ -69,14 +69,14 @@ class FabricDeleteViewSet(GenericViewSet):
 
 class FabricCarsCreateViewSet(CreateModelMixin, GenericViewSet):
     def get_queryset(self):
-        return FabricCars.objects.get_active().all()
+        return FabricCars.objects.filter(is_active=True)
 
     serializer_class = FabricCarsSerializerCreate
 
 
 class FabricCarsUpdateViewSet(GenericViewSet):
     def get_queryset(self):
-        return FabricCars.objects.get_active().all()
+        return FabricCars.objects.filter(is_active=True)
 
     serializer_class = FabricCarsSerializerUpdate
 
@@ -93,7 +93,7 @@ class FabricCarsUpdateViewSet(GenericViewSet):
 
 class FabricCarsDeleteViewSet(GenericViewSet):
     def get_queryset(self):
-        return FabricCars.objects.get_active().all()
+        return FabricCars.objects.filter(is_active=True)
 
     def destroy(self, request, pk):
         show_room_stock_obj = get_object_or_404(FabricCars, pk=pk)

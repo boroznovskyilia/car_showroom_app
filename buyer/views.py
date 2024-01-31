@@ -22,14 +22,14 @@ class BuyerListCreateViewSet(ListModelMixin, CreateModelMixin, GenericViewSet):
         return super().to_internal_value(data)
 
     def get_queryset(self):
-        return Buyer.objects.get_active().all()
+        return Buyer.objects.filter(is_active=True)
 
     serializer_class = BuyerListCreateSerializer
 
 
 class BuyerUpdateViewSet(GenericViewSet):
     def get_queryset(self):
-        return Buyer.objects.get_active().all()
+        return Buyer.objects.filter(is_active=True)
 
     serializer_class = BuyerUpdateSerializer
 
@@ -46,7 +46,7 @@ class BuyerUpdateViewSet(GenericViewSet):
 
 class BuyerDeleteViewSet(GenericViewSet):
     def get_queryset(self):
-        return Buyer.objects.get_active().all()
+        return Buyer.objects.filter(is_active=True)
 
     def destroy(self, request, pk):
         producer_obj = get_object_or_404(Buyer, pk=pk)

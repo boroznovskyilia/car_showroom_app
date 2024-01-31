@@ -9,7 +9,7 @@ from fabric.model_cars import FabricCars
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-
+   
 class Sale(models.Model):
     percent = models.PositiveSmallIntegerField(validators=[MinValueValidator(1),MaxValueValidator(100)],
                                                default = 5)

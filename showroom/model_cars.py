@@ -14,3 +14,4 @@ class ShowRoomCars(InitialModel):
     fabric_car = models.ForeignKey(
         FabricCars, null=True, related_name="showroom_cars", on_delete=models.CASCADE
     )
+    
