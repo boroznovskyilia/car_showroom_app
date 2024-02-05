@@ -16,7 +16,7 @@ class Transaction(models.Model):
     if fabric == None(null) -> this is Showroom->Buyer transaction
     if buyer == None(null) -> this is Fabric->Showroom transaction
     """
-
+    
     showroom = models.ForeignKey(ShowRoom, on_delete=models.PROTECT, null=True, related_name="transactions")
     buyer = models.ForeignKey(Buyer, on_delete=models.PROTECT, null=True, related_name="transactions")
     fabric = models.ForeignKey(Fabric, on_delete=models.PROTECT, null=True, related_name="transactions")

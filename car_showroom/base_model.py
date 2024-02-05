@@ -31,7 +31,7 @@ class BaseModel(InitialModel):
     Base Model that used for Fabric,ShowRoom,Buyer
     """
 
-    name = models.CharField()
+    name = models.CharField(unique=True)
     balance = models.IntegerField(default=0)
     location = CountryField(blank=True)
 
